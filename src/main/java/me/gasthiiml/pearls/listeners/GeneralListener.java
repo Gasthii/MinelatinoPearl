@@ -2,12 +2,11 @@ package me.gasthiiml.pearls.listeners;
 
 import me.gasthiiml.pearls.Main;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -21,8 +20,9 @@ public class GeneralListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if(event.getItem().getType() == Material.ENDER_PEARL) {
-            System.out.println(cooldown);
+        if(event.getItem() != null && event.getItem().getType() == Material.ENDER_PEARL) {
+            if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
+                return;
 
             if(cooldown.containsKey(event.getPlayer().getUniqueId())) {
                 long time = cooldown.get(event.getPlayer().getUniqueId());
